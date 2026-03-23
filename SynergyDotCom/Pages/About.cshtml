@@ -1,0 +1,97 @@
+﻿@page
+@model SynergyDotCom.Pages.AboutModel
+@{
+    ViewData["Title"] = "About Anuoluwapo Ade Obatayo";
+}
+
+<style>
+    /* Glass Effect for Cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Ensure text readability on dark backgrounds */
+    .text-cyan {
+        color: #00d2ff !important;
+    }
+
+    .opacity-90 {
+        opacity: 0.9;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row align-items-start">
+
+        <div class="col-md-4 mb-4">
+            <div class="glass-card text-center p-4 sticky-top" style="top: 100px; z-index: 1;">
+
+                <div style="width: 200px; height: 200px; border-radius: 50%; background: #050A19; margin: 0 auto; overflow: hidden; border: 4px solid #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);">
+                    <img src="~/images/me.jpg" onerror="this.src='https://via.placeholder.com/200'" alt="Anuoluwapo Ade Obatayo" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;">
+                </div>
+
+                <h2 class="mt-4 fw-bold text-white fs-4">ANUOLUWAPO ADE OBATAYO</h2>
+                <p class="text-cyan fw-bold text-uppercase small" style="letter-spacing: 2px;">Legal Practitioner & Poet</p>
+
+                <hr class="opacity-50 my-4 text-white">
+
+                <p class="small opacity-75 text-start fst-italic text-white">
+                    "A way of life that is filled with ideas which are clearly narrative in nature but reflective of deep thoughts and the need for obvious answers."
+                </p>
+
+                <div class="d-flex justify-content-center gap-2 mt-4">
+                    <a asp-page="/Contact" class="btn btn-sm btn-outline-light w-100">Contact Me</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 text-white">
+
+            <div class="mb-5">
+                <h1 class="display-5 fw-bold mb-3">The Power of <span class="text-cyan">SUNERGOS</span></h1>
+                <div class="p-4 rounded-3" style="background: rgba(0, 210, 255, 0.05); border-left: 4px solid #00d2ff;">
+                    <p class="lead opacity-90 fst-italic mb-0">
+                        "Synergy, as the word denotes, is derived from the Greek word <span class="text-cyan fw-bold">SUNERGOS</span>, which means 'working together'.
+                        It simply means the combined power of a group of things when they are working together that is greater than the total power achieved by each working separately."
+                    </p>
+                </div>
+                <p class="mt-4 opacity-75" style="line-height: 1.8;">
+                    The idea behind the fusion of many independent ideas is for the purpose of itemizing the different capabilities of the author.
+                    Through the creation of various blogs, we enable these strengths to be harnessed into one formidable output—visible to all and intended to contribute to the improvement of the human mind.
+                </p>
+            </div>
+
+            <hr class="opacity-25 my-5">
+
+            <h3 class="mb-4">The Man Behind the Vision</h3>
+
+            <div class="glass-card p-4 mb-4 border-start border-4 border-primary">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="fs-2 me-3">⚖️</span>
+                    <h3 class="m-0 text-white">Legal Practitioner</h3>
+                </div>
+                <p class="opacity-75 mb-0">
+                    Based in Lagos, Nigeria, Anuoluwapo is a Legal Practitioner and a man of many seasons.
+                    He is a passionate patriot—an avid expert in natural geography, places, and sounds all around the globe.
+                </p>
+            </div>
+
+            <div class="glass-card p-4 mb-4 border-start border-4 border-danger">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="fs-2 me-3">✒️</span>
+                    <h3 class="m-0 text-white">Poet & Philosopher</h3>
+                </div>
+                <p class="opacity-75 mb-0">
+                    With a list of published poems already in the media mainstream, his poems are a vivid description of how he views humanity.
+                    He takes a critical and surgical look at our many flaws and flavours, presenting ideas that are narrative in nature but reflective of deep thoughts.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>

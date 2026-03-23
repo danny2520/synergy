@@ -1,0 +1,153 @@
+﻿@page
+@model SynergyDotCom.Pages.Admin.Law.DetailsModel
+@{
+    ViewData["Title"] = Model.LawPost.Title;
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+    /* LAW THEME VARIABLES */
+    :root {
+        --legal-gold: #c5a059;
+        --legal-dark: #0f172a;
+        --legal-text: #333333;
+        --legal-bg: #f8f9fa;
+    }
+
+    body {
+        background-color: var(--legal-bg);
+        font-family: 'Cormorant Garamond', serif;
+    }
+
+    .legal-hero {
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        padding: 100px 0 60px;
+        color: white;
+        border-bottom: 4px solid var(--legal-gold);
+        position: relative;
+    }
+
+    .case-category {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--legal-gold);
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    .case-title {
+        font-family: 'Cinzel', serif;
+        font-size: 3.5rem;
+        line-height: 1.2;
+        margin-bottom: 25px;
+        font-weight: 700;
+    }
+
+    .case-meta {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.6);
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 20px;
+        display: inline-flex;
+        gap: 30px;
+    }
+
+    .paper-container {
+        max-width: 900px;
+        margin: -50px auto 50px;
+        background: white;
+        padding: 60px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        border-radius: 4px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .analysis-box {
+        background-color: #fffbf2;
+        border-left: 3px solid var(--legal-gold);
+        padding: 30px;
+        margin-bottom: 40px;
+        font-style: italic;
+        color: #555;
+        font-size: 1.2rem;
+    }
+
+    .legal-body {
+        font-size: 1.4rem;
+        line-height: 1.9;
+        color: var(--legal-text);
+        white-space: pre-wrap; /* Preserves formatting */
+    }
+
+        .legal-body p {
+            margin-bottom: 2rem;
+        }
+
+    .btn-seal {
+        border: 1px solid var(--legal-dark);
+        color: var(--legal-dark);
+        padding: 12px 30px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-seal:hover {
+            background: var(--legal-dark);
+            color: white;
+        }
+</style>
+
+<div class="legal-hero">
+    <div class="container text-center">
+        <span class="case-category">@Model.LawPost.LegalCategory</span>
+        <h1 class="case-title">@Model.LawPost.Title</h1>
+        <div class="case-meta">
+            <span><i class="bi bi-calendar3"></i> @Model.LawPost.Date.ToString("MMMM dd, yyyy")</span>
+            <span><i class="bi bi-bookmark-star"></i> REF: @Model.LawPost.CaseReference</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="paper-container">
+
+        @if (!string.IsNullOrEmpty(Model.LawPost.ImageUrl))
+        {
+            <img src="@Model.LawPost.ImageUrl" class="img-fluid w-100 mb-5 shadow-sm" style="max-height: 500px; object-fit: cover; filter: sepia(10%);">
+        }
+
+        <div class="analysis-box">
+            <strong>Brief Analysis:</strong> @Model.LawPost.Analysis
+        </div>
+
+        <div class="legal-body">
+            @if (Model.LawPost.GetType().GetProperty("Body") != null)
+            {
+                @Html.Raw(Model.LawPost.GetType().GetProperty("Body")?.GetValue(Model.LawPost)?.ToString()?.Replace("\n", "<br>"))
+            }
+            else if (Model.LawPost.GetType().GetProperty("Content") != null)
+            {
+                @Html.Raw(Model.LawPost.GetType().GetProperty("Content")?.GetValue(Model.LawPost)?.ToString()?.Replace("\n", "<br>"))
+            }
+        </div>
+
+        <div class="mt-5 pt-5 border-top d-flex justify-content-between align-items-center">
+            <a asp-page="/Law" class="btn-seal">&larr; Return to Chambers</a>
+
+            <button onclick="window.print()" class="btn btn-link text-muted" style="font-family:'Montserrat', sans-serif;">
+                <i class="bi bi-printer me-2"></i> Print File
+            </button>
+        </div>
+
+    </div>
+</div>

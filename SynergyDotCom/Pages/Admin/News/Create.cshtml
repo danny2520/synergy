@@ -1,0 +1,65 @@
+﻿@page
+@model SynergyDotCom.Pages.Shared.Admin.News.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>PoliticsPost</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="PoliticsPost.Headline" class="control-label"></label>
+                <input asp-for="PoliticsPost.Headline" class="form-control" aria-required="true"/>
+                <span asp-validation-for="PoliticsPost.Headline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoliticsPost.Summary" class="control-label"></label>
+                <input asp-for="PoliticsPost.Summary" class="form-control" />
+                <span asp-validation-for="PoliticsPost.Summary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoliticsPost.FullStory" class="control-label"></label>
+                <input asp-for="PoliticsPost.FullStory" class="form-control" />
+                <span asp-validation-for="PoliticsPost.FullStory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoliticsPost.Source" class="control-label"></label>
+                <input asp-for="PoliticsPost.Source" class="form-control" />
+                <span asp-validation-for="PoliticsPost.Source" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoliticsPost.ImageUrl" class="control-label"></label>
+                <input asp-for="PoliticsPost.ImageUrl" class="form-control" />
+                <span asp-validation-for="PoliticsPost.ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PoliticsPost.IsBreakingNews" /> @Html.DisplayNameFor(model => model.PoliticsPost.IsBreakingNews)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoliticsPost.Date" class="control-label"></label>
+                <input asp-for="PoliticsPost.Date" class="form-control" />
+                <span asp-validation-for="PoliticsPost.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,247 @@
+﻿@page
+@model SynergyDotCom.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<style>
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.4)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 100px 0;
+        color: white;
+        border-bottom: 4px solid #00d2ff;
+    }
+
+    /* Feature Cards */
+    .feature-card {
+        background: white;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: #0f172a;
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .feature-card:hover::before {
+            width: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            color: white;
+        }
+
+            .feature-card:hover h3, .feature-card:hover p {
+                color: white !important;
+            }
+
+            .feature-card:hover .btn-link {
+                color: #00d2ff !important;
+            }
+
+    /* Stats Counter */
+    .stats-strip {
+        background-color: #0f172a;
+        color: white;
+        padding: 4rem 0;
+    }
+
+    .section-divider {
+        border-bottom: 1px solid #e2e8f0;
+        margin-bottom: 2rem;
+        padding-bottom: 0.5rem;
+    }
+</style>
+
+<div class="hero-section text-center">
+    <div class="container">
+        <span class="badge rounded-pill border border-info text-info mb-3 px-3 py-2">WELCOME TO THE NEXUS</span>
+        <h1 class="display-1 fw-bold mb-4">The Convergence of<br><span style="color: #00d2ff;">Power, Justice & Art</span></h1>
+        <p class="lead text-white-50 mb-5 mx-auto" style="max-width: 700px;">
+            Synergy is the premier digital platform connecting the complexities of Nigerian Politics, the intricacies of Property Law, and the depth of Human Expression.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+            <a asp-page="/Politics" class="btn btn-info fw-bold btn-lg px-4">Explore Politics</a>
+            <a asp-page="/Law" class="btn btn-outline-light fw-bold btn-lg px-4">Legal Resources</a>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5 py-5">
+    <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="feature-card p-4 shadow-sm text-center border-top border-4 border-warning">
+                <div class="mb-3"><i class="bi bi-gavel fs-1 text-warning"></i></div>
+                <h3 class="fw-bold text-dark h5">Law & Property</h3>
+                <p class="text-muted small">Expert insights into Land Use Acts, Tenancy Laws, and Supreme Court rulings.</p>
+                <a asp-page="/Law" class="btn btn-link text-warning fw-bold text-decoration-none stretched-link">ENTER CHAMBERS &rarr;</a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="feature-card p-4 shadow-sm text-center border-top border-4 border-success">
+                <div class="mb-3"><i class="bi bi-bank2 fs-1 text-success"></i></div>
+                <h3 class="fw-bold text-dark h5">Politics</h3>
+                <p class="text-muted small">Real-time legislative tracking, election monitors, and news from the 36 states.</p>
+                <a asp-page="/Politics" class="btn btn-link text-success fw-bold text-decoration-none stretched-link">ENTER SENATE &rarr;</a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="feature-card p-4 shadow-sm text-center border-top border-4 border-primary">
+                <div class="mb-3"><i class="bi bi-feather fs-1 text-primary"></i></div>
+                <h3 class="fw-bold text-dark h5">Anthology</h3>
+                <p class="text-muted small">A sanctuary for poets and thinkers. Explore the abstract and the profound.</p>
+                <a asp-page="/Anthology" class="btn btn-link text-primary fw-bold text-decoration-none stretched-link">OPEN LIBRARY &rarr;</a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="feature-card p-4 shadow-sm text-center border-top border-4" style="border-color: #d35400;">
+                <div class="mb-3"><i class="bi bi-cup-hot-fill fs-1" style="color: #d35400;"></i></div>
+                <h3 class="fw-bold text-dark h5">Culinary</h3>
+                <p class="text-muted small">Explore African flavors, recipes, and the culture of food across the continent.</p>
+                <a asp-page="/Culinary" class="btn btn-link fw-bold text-decoration-none stretched-link" style="color: #d35400;">VISIT KITCHEN &rarr;</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white py-5">
+    <div class="container">
+        <div class="mb-5">
+            <h2 class="section-divider text-warning"><i class="bi bi-gavel me-2"></i>Recent Legal Insights</h2>
+            <div class="row">
+                @if (Model.RecentLawPosts != null)
+                {
+                    @foreach (var item in Model.RecentLawPosts)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 shadow-sm border-0 bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Title</h5>
+                                    <p class="card-text text-muted small">
+                                        @(item.Analysis != null && item.Analysis.Length > 80 ? item.Analysis.Substring(0, 80) + "..." : item.Analysis)
+                                    </p>
+                                    <a asp-page="/Law" class="btn btn-outline-warning btn-sm text-dark">Go to Section</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h2 class="section-divider text-success"><i class="bi bi-newspaper me-2"></i>Political Headlines</h2>
+            <div class="row">
+                @if (Model.RecentPolitics != null)
+                {
+                    @foreach (var item in Model.RecentPolitics)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-success mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title text-success">@item.Headline</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted small">Source: @item.Source</h6>
+                                    <p class="card-text text-dark small">
+                                        @(item.Body != null && item.Body.Length > 80 ? item.Body.Substring(0, 80) + "..." : item.Body)
+                                    </p>
+                                    <a asp-page="/Politics" class="btn btn-success btn-sm">Read News</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h2 class="section-divider text-primary"><i class="bi bi-feather me-2"></i>Latest Anthology</h2>
+            <div class="row">
+                @if (Model.RecentPoems != null)
+                {
+                    @foreach (var item in Model.RecentPoems)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 bg-light border-0 shadow-sm">
+                                <div class="card-body font-italic">
+                                    <h5 class="card-title text-center text-primary">"@item.Title"</h5>
+                                    <p class="text-center text-muted small">- @item.Poet</p>
+                                    <p class="card-text small text-center">
+                                        @(item.Content != null && item.Content.Length > 80 ? item.Content.Substring(0, 80) + "..." : item.Content)
+                                    </p>
+                                    <a asp-page="/Anthology" class="btn btn-outline-primary btn-sm d-block mx-auto mt-3">Read Poem</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h2 class="section-divider" style="color: #d35400;"><i class="bi bi-fire me-2"></i>Featured Menu</h2>
+            <div class="row">
+                @if (Model.FeaturedDishes != null)
+                {
+                    @foreach (var item in Model.FeaturedDishes)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 shadow-sm border-0">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h5 class="card-title mb-0">@item.Name</h5>
+                                        <span class="badge bg-danger">₦@item.Price</span>
+                                    </div>
+                                    <p class="card-text text-muted small">@item.Description</p>
+                                    <a asp-page="/Culinary" class="btn btn-outline-danger btn-sm">Order Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80" class="img-fluid rounded shadow" alt="Team">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4 display-6 text-dark">Bridging The Gap</h2>
+                <p class="lead text-dark fw-bold">In a nation of 200 million voices, clarity is the most expensive commodity.</p>
+                <a asp-page="/Contact" class="btn btn-dark mt-3">Join the Network</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="stats-strip text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 mb-3"><h2 class="fw-bold display-4">24/7</h2><p class="text-info text-uppercase small ls-2">News Coverage</p></div>
+            <div class="col-md-3 mb-3"><h2 class="fw-bold display-4">50+</h2><p class="text-info text-uppercase small ls-2">Daily Articles</p></div>
+            <div class="col-md-3 mb-3"><h2 class="fw-bold display-4">36</h2><p class="text-info text-uppercase small ls-2">States Monitored</p></div>
+            <div class="col-md-3 mb-3"><h2 class="fw-bold display-4">10k</h2><p class="text-info text-uppercase small ls-2">Community Members</p></div>
+        </div>
+    </div>
+</div>

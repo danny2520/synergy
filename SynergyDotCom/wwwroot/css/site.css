@@ -1,0 +1,142 @@
+/* 1. THE BACKGROUND - With Image */
+body {
+    /* This loads the image you just pasted */
+    background: url('../images/bg.jpg') no-repeat center center fixed; 
+    
+    /* This ensures the image covers the whole screen */
+    background-size: cover; 
+    
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+/* 2. THE NAVBAR - Transparent Glass */
+.navbar {
+    background-color: rgba(0, 0, 0, 0.3) !important; /* Semi-transparent black */
+    backdrop-filter: blur(10px); /* Blurs what is behind it */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand, .nav-link {
+    color: #ffffff !important; /* Force text to be white */
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Slight neon glow */
+}
+
+/* 3. THE "GLASS" BOXES (Glassmorphism) */
+.glass-card {
+    background: rgba(255, 255, 255, 0.05); /* Very faint white see-through */
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px); /* The frosted glass effect */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Thin white border */
+    color: white;
+    padding: 2rem;
+    transition: transform 0.3s ease;
+}
+
+    .glass-card:hover {
+        transform: translateY(-5px); /* Moves up slightly when you hover */
+        background: rgba(255, 255, 255, 0.1); /* Gets slightly brighter */
+    }
+
+/* 4. NEON BUTTONS */
+.btn-neon {
+    background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 50px; /* Round pill shape */
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.5); /* Blue Glow */
+}
+
+    .btn-neon:hover {
+        box-shadow: 0 0 25px rgba(0, 210, 255, 0.8); /* Brighter glow on hover */
+        color: white;
+    }
+
+/* 5. TEXT STYLES */
+.text-cyan {
+    color: #00d2ff; /* Bright Cyan color for keywords */
+}
+
+/* =======================================================
+   GLOBAL MOBILE OPTIMIZATION (Applies to All Pages)
+   ======================================================= */
+
+@media (max-width: 768px) {
+
+    /* --- 1. TYPOGRAPHY FIXES --- */
+    /* Prevents huge headlines from going off-screen */
+    h1.display-1, h1.display-3, h1.display-4, h1.display-5 {
+        font-size: 2.2rem !important;
+        line-height: 1.2;
+        word-wrap: break-word;
+    }
+
+    p.lead {
+        font-size: 1rem !important;
+    }
+
+    /* --- 2. HERO SECTIONS (Law, Politics, Anthology) --- */
+    /* Reduces the massive padding on mobile so content starts sooner */
+    .politics-hero,
+    .law-header-card,
+    .poet-hero,
+    .hero-section {
+        padding: 3rem 1rem !important;
+        text-align: center !important; /* Center text looks better on mobile */
+    }
+
+    /* --- 3. NEWS TICKERS --- */
+    /* Ensures the red/gold label doesn't take up too much space */
+    .ticker-label {
+        padding: 0 8px !important;
+        font-size: 0.7rem !important;
+        width: auto !important;
+    }
+
+    .ticker-content {
+        font-size: 0.8rem !important;
+        padding-left: 120px; /* Adjust start point for smaller screens */
+    }
+
+    /* --- 4. ABOUT PAGE FIXES --- */
+    /* Stop the sidebar from sticking on top of content on mobile */
+    .sticky-top {
+        position: relative !important;
+        top: 0 !important;
+        margin-bottom: 2rem;
+    }
+
+    /* Reduce padding inside the Glass Cards */
+    .glass-card {
+        padding: 1.5rem !important;
+    }
+
+    /* --- 5. TABLES (Legislative Tracker) --- */
+    /* Allows tables to scroll sideways instead of breaking the layout */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* --- 6. ANTHOLOGY & CARDS --- */
+    /* Ensure images in split-cards stack on top, not vanish */
+    .card .row > .col-md-4,
+    .card .row > .col-md-5 {
+        min-height: 200px; /* Gives image area height when stacked */
+    }
+
+    /* --- 7. MODALS (Popups) --- */
+    .modal-body {
+        padding: 1.5rem !important; /* Less padding in popups */
+    }
+
+    /* --- 8. GLOBAL CONTAINER SPACING --- */
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

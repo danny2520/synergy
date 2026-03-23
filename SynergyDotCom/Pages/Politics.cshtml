@@ -1,0 +1,659 @@
+﻿@page
+@model SynergyDotCom.Pages.PoliticsModel
+@{
+    ViewData["Title"] = "Politics & Governance";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+<style>
+    :root {
+        --synergy-cyan: #00d2ff;
+        --synergy-dark: #0f172a;
+        --politics-green: #008751;
+        --politics-red: #d90429;
+    }
+
+    /* --- News Ticker --- */
+    .news-ticker-wrap {
+        background: var(--synergy-dark);
+        color: white;
+        overflow: hidden;
+        height: 40px;
+        line-height: 40px;
+        position: relative;
+        border-bottom: 2px solid var(--politics-green);
+    }
+
+    .ticker-label {
+        background: var(--politics-red);
+        color: white;
+        font-weight: bold;
+        padding: 0 15px;
+        position: absolute;
+        z-index: 2;
+        height: 100%;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+
+    .ticker-content {
+        display: inline-block;
+        white-space: nowrap;
+        padding-left: 100%;
+        animation: ticker 60s linear infinite;
+        font-size: 0.9rem;
+    }
+
+        .ticker-content span {
+            margin-right: 40px;
+        }
+
+    @@keyframes ticker {
+        0% {
+            transform: translate3d(0, 0, 0);
+        }
+
+        100% {
+            transform: translate3d(-100%, 0, 0);
+        }
+    }
+
+    /* --- Hero Section --- */
+    .politics-hero {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1540910419868-474947cebacb?auto=format&fit=crop&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 4rem 2rem;
+        border-bottom: 5px solid var(--politics-green);
+        color: white;
+    }
+
+    /* --- Cards & Typography --- */
+    .section-title {
+        border-left: 5px solid var(--politics-green);
+        padding-left: 15px;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        color: var(--synergy-dark);
+    }
+
+    .card-news {
+        border: none;
+        border-radius: 0;
+        background-color: white !important;
+        border-bottom: 1px solid #eee;
+        transition: all 0.2s;
+        cursor: pointer;
+        height: 100%;
+    }
+
+        .card-news:hover {
+            background-color: #f8f9fa !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .card-news img {
+            object-fit: cover;
+            height: 200px;
+            width: 100%;
+        }
+
+        .card-news h4 {
+            color: #000 !important;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .card-news p {
+            color: #444 !important;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+    .news-meta {
+        font-size: 0.75rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .source-badge {
+        background: #eee;
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: #333;
+        font-size: 0.7rem;
+    }
+
+    /* --- Sidebar Widgets --- */
+    .widget-box {
+        background: white;
+        color: #000;
+        border: 1px solid #dee2e6;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+        .widget-box.bg-dark {
+            background-color: #212529 !important;
+            color: white !important;
+        }
+
+    /* --- Poll Styling --- */
+    .poll-option {
+        padding: 12px;
+        border: 1px solid #dee2e6;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        color: #333;
+        font-weight: 600;
+        border-radius: 4px;
+    }
+
+        .poll-option:hover {
+            background: #e9ecef;
+            border-color: var(--politics-green);
+        }
+
+    .poll-result-bar {
+        height: 25px;
+        background-color: #e9ecef;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .poll-fill {
+        height: 100%;
+        background-color: var(--politics-green);
+        width: 0%;
+        transition: width 1s ease-in-out;
+    }
+
+    .poll-label {
+        font-size: 0.85rem;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    /* --- Table --- */
+    .table-custom thead {
+        background-color: var(--synergy-dark);
+        color: white;
+    }
+
+    .table-custom tbody tr {
+        color: #000;
+    }
+
+    /* --- Modal --- */
+    .modal-content {
+        background-color: white;
+        color: #000 !important;
+    }
+
+    .modal-header {
+        background: var(--politics-green);
+        color: white;
+    }
+
+    .modal-body p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #222 !important;
+    }
+
+    .modal-title {
+        color: white !important;
+    }
+</style>
+
+<div class="news-ticker-wrap mb-0">
+    <div class="ticker-label">BREAKING</div>
+    <div class="ticker-content" id="tickerContainer">
+        <span><i class="bi bi-caret-right-fill text-danger"></i> Loading global headlines...</span>
+    </div>
+</div>
+
+<div class="politics-hero mb-5">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <span class="badge bg-danger mb-2">TOP STORY</span>
+                <h1 class="display-4 fw-bold">The Race to 2027: Political Realignment Begins</h1>
+                <p class="lead text-light opacity-75">As coalitions form and dissolve, we analyze the shifting power dynamics in Abuja and what it means for the average Nigerian.</p>
+                <button class="btn btn-outline-light rounded-0 px-4 mt-3" data-bs-toggle="modal" data-bs-target="#modalHero">Read Full Report</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <div class="mb-5">
+                <h3 class="section-title">Synergy Reports (Database)</h3>
+                @if (Model.PoliticsPosts != null && Model.PoliticsPosts.Any())
+                {
+                    <div class="row g-4">
+                        @foreach (var item in Model.PoliticsPosts)
+                        {
+                            <div class="col-md-6">
+                                <div class="card card-news h-100">
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@item.ImageUrl" alt="News Image">
+                                    }
+                                    <div class="card-body">
+                                        <div class="news-meta mb-2">
+                                            <span class="source-badge bg-dark text-white">@item.Source</span>
+                                            <span>@item.Date.ToShortDateString()</span>
+                                        </div>
+                                        <h4 class="fw-bold">@item.Headline</h4>
+                                        <p class="text-secondary small mb-3">
+                                            @(item.Body != null && item.Body.Length > 100 ? item.Body.Substring(0, 100) + "..." : item.Body)
+                                        </p>
+                                        <a asp-page="/Admin/News/Details" asp-route-id="@item.Id" class="text-primary small fw-bold">Read Full Report <i class="bi bi-box-arrow-up-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-light border border-success">No reports filed in the database yet. Use the Admin panel to create one.</div>
+                }
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+                <h3 class="section-title mb-0">Global & National Feed</h3>
+                <div class="d-flex gap-2">
+                    <span class="badge bg-success" id="statusBadge"><i class="bi bi-broadcast me-1"></i> LIVE</span>
+                    <button class="btn btn-sm btn-outline-dark" onclick="location.reload()"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-5" id="newsGrid">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;"></div>
+                    <p class="mt-3 text-muted fw-bold">Aggregating news from BBC, Vanguard, Channels & Punch...</p>
+                </div>
+            </div>
+
+            <div class="mb-5 border-top pt-4">
+                <h3 class="section-title">Opinion & Analysis</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card card-news h-100 border bg-light">
+                            <div class="card-body">
+                                <span class="badge bg-secondary mb-2">EDITORIAL</span>
+                                <h4 class="fw-bold">The Cost of Governance</h4>
+                                <p>Why reducing the number of parastatals is no longer a choice but a necessity for Nigeria's fiscal survival.</p>
+                                <a href="#" class="small fw-bold text-dark">Read Commentary &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-news h-100 border bg-light">
+                            <div class="card-body">
+                                <span class="badge bg-secondary mb-2">OP-ED</span>
+                                <h4 class="fw-bold">Local Government Autonomy</h4>
+                                <p>A look at the Supreme Court ruling and why implementation remains the biggest hurdle for rural development.</p>
+                                <a href="#" class="small fw-bold text-dark">Read Commentary &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="section-title">Legislative Tracker (10th Assembly)</h3>
+            <div class="table-responsive mb-5">
+                <table class="table table-custom table-hover border">
+                    <thead>
+                        <tr>
+                            <th>Bill Ref</th>
+                            <th>Title</th>
+                            <th>Sponsor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SB-234</td>
+                            <td>Electricity Act Amendment</td>
+                            <td>Sen. A. Adeola</td>
+                            <td><span class="badge bg-success">Passed</span></td>
+                        </tr>
+                        <tr>
+                            <td>HB-101</td>
+                            <td>Student Loan Access Bill</td>
+                            <td>Rep. F. Gbajabiamila</td>
+                            <td><span class="badge bg-warning text-dark">2nd Reading</span></td>
+                        </tr>
+                        <tr>
+                            <td>SB-099</td>
+                            <td>Cybercrime Prohibition Act</td>
+                            <td>Sen. M. Ali</td>
+                            <td><span class="badge bg-info">Committee Stage</span></td>
+                        </tr>
+                        <tr>
+                            <td>HB-441</td>
+                            <td>Diaspora Voting Rights</td>
+                            <td>Rep. T. Oke</td>
+                            <td><span class="badge bg-danger">Stalled</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="widget-box">
+                <h6 class="fw-bold text-uppercase mb-3 text-dark">Find News</h6>
+                <div class="input-group">
+                    <input type="text" id="pageSearchInput" class="form-control rounded-0" placeholder="Search politics...">
+                    <button class="btn btn-dark rounded-0"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+
+            <div class="widget-box bg-white border-top border-5 border-success">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold text-dark mb-0">Pulse of the Nation</h5>
+                    <span class="badge bg-danger animate-pulse">LIVE</span>
+                </div>
+
+                <p class="small text-dark fw-bold mb-3" id="poll-question">Loading Topic...</p>
+
+                <div id="poll-voting-state">
+                </div>
+
+                <div id="poll-results-state" style="display: none;">
+
+                    <div class="poll-label">
+                        <span id="label-opt1">Option A</span>
+                        <span id="pct-opt1">0%</span>
+                    </div>
+                    <div class="poll-result-bar"><div class="poll-fill bg-success" id="bar-opt1"></div></div>
+
+                    <div class="poll-label">
+                        <span id="label-opt2">Option B</span>
+                        <span id="pct-opt2">0%</span>
+                    </div>
+                    <div class="poll-result-bar"><div class="poll-fill bg-danger" id="bar-opt2"></div></div>
+
+                    <div class="poll-label">
+                        <span id="label-opt3">Option C</span>
+                        <span id="pct-opt3">0%</span>
+                    </div>
+                    <div class="poll-result-bar"><div class="poll-fill bg-secondary" id="bar-opt3"></div></div>
+
+                    <p class="text-center small text-muted mt-3">Total Votes: <strong id="total-votes">0</strong></p>
+
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-dark w-100 mt-2" onclick="loadRandomPoll()">Next Topic</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-box bg-dark text-white text-center">
+                <i class="bi bi-quote fs-1 text-secondary"></i>
+                <div id="quoteCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <figure class="mb-0">
+                                <blockquote class="blockquote fs-6">
+                                    <p>"Politics is not a dirty game; it is the players who are dirty."</p>
+                                </blockquote>
+                                <figcaption class="blockquote-footer text-white-50 mt-2">Chief Obafemi Awolowo</figcaption>
+                            </figure>
+                        </div>
+                        <div class="carousel-item">
+                            <figure class="mb-0">
+                                <blockquote class="blockquote fs-6">
+                                    <p>"No Nigerian is more Nigerian than any other Nigerian."</p>
+                                </blockquote>
+                                <figcaption class="blockquote-footer text-white-50 mt-2">President Bola Ahmed Tinubu</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-box border-0 bg-light">
+                <h6 class="fw-bold text-dark">Abuja Insider</h6>
+                <p class="small text-secondary">Get the rumors from Aso Rock before they hit the news.</p>
+                <input type="email" class="form-control mb-2 rounded-0" placeholder="Email Address">
+                <button class="btn btn-dark w-100 rounded-0">SUBSCRIBE</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalHero" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">The Race to 2027</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-5">
+                <h2 class="fw-bold mb-4 text-dark">Political Realignment and the Battle for the Center</h2>
+                <p>As the current administration crosses its mid-term threshold, political gladiators across the six geopolitical zones have begun the subtle yet intense game of alignment and realignment.</p>
+                <p>Analysts predict that the North-Central zone, having felt marginalized in the previous power-sharing arrangements, will demand a more significant role in 2027.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // --- 1. NEWS AGGREGATOR ---
+        const feeds = [
+            { name: "PUNCH", url: "https://rss.punchng.com/v1/category/politics" },
+            { name: "CHANNELS TV", url: "https://www.channelstv.com/category/politics/feed" },
+            { name: "VANGUARD", url: "https://www.vanguardngr.com/category/politics/feed" },
+            { name: "BBC AFRICA", url: "http://feeds.bbci.co.uk/news/world/africa/rss.xml" },
+            { name: "THE CABLE", url: "https://www.thecable.ng/category/politics/feed" }
+        ];
+        const sportsKeywords = ["football", "soccer", "sport", "league", "cup", "fifa", "super eagles", "chelsea", "arsenal", "man utd", "match", "score", "tennis"];
+        const newsGrid = document.getElementById('newsGrid');
+        const tickerContainer = document.getElementById('tickerContainer');
+
+        const fetchFeed = (source) => {
+            const api = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(source.url)}`;
+            return fetch(api).then(res => res.json()).then(data => {
+                return data.status === 'ok' ? data.items.map(item => ({...item, sourceName: source.name})) : [];
+            }).catch(() => []);
+        };
+
+        Promise.all(feeds.map(fetchFeed)).then(results => {
+            let allStories = results.flat().filter(story => {
+                const text = (story.title + " " + story.description).toLowerCase();
+                return !sportsKeywords.some(k => text.includes(k));
+            }).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+            renderPage(allStories);
+        });
+
+        function renderPage(stories) {
+            newsGrid.innerHTML = '';
+            let tickerHtml = '';
+            const displayStories = stories.slice(0, 16);
+
+            if(displayStories.length === 0) {
+                newsGrid.innerHTML = '<div class="alert alert-warning">News feeds unavailable.</div>';
+                return;
+            }
+
+            displayStories.forEach((item, index) => {
+                if(index < 8) tickerHtml += `<span><i class="bi bi-caret-right-fill text-danger"></i> <span class="text-warning">[${item.sourceName}]</span> ${item.title}</span>`;
+
+                let imgUrl = item.enclosure.link || item.thumbnail || 'https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?auto=format&fit=crop&q=80';
+
+                const col = document.createElement('div');
+                col.className = 'col-md-6';
+                col.innerHTML = `
+                    <div class="card card-news h-100" onclick="window.open('${item.link}', '_blank')">
+                        <img src="${imgUrl}" alt="News" onerror="this.src='https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?auto=format&fit=crop&q=80'">
+                        <div class="card-body">
+                            <div class="news-meta mb-2">
+                                <span class="source-badge">${item.sourceName}</span>
+                                <span>${new Date(item.pubDate).toLocaleDateString()}</span>
+                            </div>
+                            <h4 class="fw-bold">${item.title}</h4>
+                            <p class="text-secondary small mb-3">${item.description.replace(/<[^>]*>?/gm, '').substring(0, 100)}...</p>
+                            <span class="text-primary small fw-bold">Read Full Story <i class="bi bi-box-arrow-up-right"></i></span>
+                        </div>
+                    </div>
+                `;
+                newsGrid.appendChild(col);
+            });
+            tickerContainer.innerHTML = tickerHtml;
+        }
+
+    // --- 2. DYNAMIC POLL LOGIC ---
+        const polls = [
+            {
+                q: "Do you support the establishment of State Police?",
+                options: ["Yes, it will curb insecurity", "No, Governors will abuse it", "Undecided / Indifferent"]
+            },
+            {
+                q: "Should the Senate be scrapped for a Unicameral Legislature?",
+                options: ["Yes, to cut costs", "No, we need checks & balances", "Undecided"]
+            },
+            {
+                q: "Do you agree with the current Fuel Subsidy removal policy?",
+                options: ["Yes, it was necessary", "No, bring it back", "Implement palliatives first"]
+            },
+            {
+                q: "Should Diaspora Voting be approved for 2027?",
+                options: ["Yes, they contribute to economy", "No, they don't live here", "Only for Presidential elections"]
+            },
+            {
+                q: "Rate the performance of the current Ministerial Cabinet.",
+                options: ["Above Average", "Below Average", "Too early to tell"]
+            }
+        ];
+
+        let currentPoll = {};
+
+        window.loadRandomPoll = function() {
+            // 1. Reset View
+            document.getElementById('poll-voting-state').style.display = 'block';
+            document.getElementById('poll-results-state').style.display = 'none';
+            document.getElementById('poll-voting-state').innerHTML = ''; // Clear old buttons
+
+            // 2. Pick Random Poll
+            currentPoll = polls[Math.floor(Math.random() * polls.length)];
+
+            // 3. Set Question
+            document.getElementById('poll-question').innerText = "Topic: " + currentPoll.q;
+
+            // 4. Create Buttons
+            currentPoll.options.forEach((opt, index) => {
+                let btn = document.createElement('div');
+                btn.className = 'poll-option';
+                btn.innerText = opt;
+                btn.onclick = function() { submitVote(index); };
+                document.getElementById('poll-voting-state').appendChild(btn);
+            });
+        };
+
+        window.submitVote = function(choiceIndex) {
+            document.getElementById('poll-voting-state').style.display = 'none';
+            document.getElementById('poll-results-state').style.display = 'block';
+
+            // Set Labels based on current poll options
+            document.getElementById('label-opt1').innerText = currentPoll.options[0];
+            document.getElementById('label-opt2').innerText = currentPoll.options[1];
+            document.getElementById('label-opt3').innerText = currentPoll.options[2];
+
+            // Simulate Votes (Random high numbers)
+            let v1 = Math.floor(Math.random() * 5000) + 2000;
+            let v2 = Math.floor(Math.random() * 5000) + 2000;
+            let v3 = Math.floor(Math.random() * 1000) + 500;
+
+            // Boost the user's choice slightly
+            if(choiceIndex === 0) v1 += 500;
+            if(choiceIndex === 1) v2 += 500;
+            if(choiceIndex === 2) v3 += 500;
+
+            let total = v1 + v2 + v3;
+            let p1 = Math.round((v1/total)*100);
+            let p2 = Math.round((v2/total)*100);
+            let p3 = 100 - (p1 + p2);
+
+            // Animate Count
+            animateValue("total-votes", 0, total, 1000);
+
+            // Fill Bars
+            setTimeout(() => {
+                document.getElementById('bar-opt1').style.width = p1 + "%";
+                document.getElementById('bar-opt2').style.width = p2 + "%";
+                document.getElementById('bar-opt3').style.width = p3 + "%";
+
+                document.getElementById('pct-opt1').innerText = p1 + "%";
+                document.getElementById('pct-opt2').innerText = p2 + "%";
+                document.getElementById('pct-opt3').innerText = p3 + "%";
+            }, 100);
+        };
+
+        function animateValue(id, start, end, duration) {
+            let obj = document.getElementById(id);
+            let range = end - start;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            stepTime = Math.max(stepTime, 50);
+            let startTime = new Date().getTime();
+            let endTime = startTime + duration;
+            let timer;
+
+            function run() {
+                let now = new Date().getTime();
+                let remaining = Math.max((endTime - now) / duration, 0);
+                let value = Math.round(end - (remaining * range));
+                obj.innerHTML = value.toLocaleString();
+                if (value == end) clearInterval(timer);
+            }
+            timer = setInterval(run, stepTime);
+            run();
+        }
+
+        // Initialize on load
+        loadRandomPoll();
+    });
+
+    // Add this to your existing script section
+    document.getElementById('pageSearchInput').addEventListener('keyup', function() {
+        let searchValue = this.value.toLowerCase();
+
+        // Select all cards (Politics uses .card-news, Law uses .card-article)
+        let cards = document.querySelectorAll('.card-news, .card-article');
+
+        cards.forEach(card => {
+            let text = card.innerText.toLowerCase();
+            if(text.includes(searchValue)) {
+                card.parentElement.style.display = 'block'; // Show column
+            } else {
+                card.parentElement.style.display = 'none'; // Hide column
+            }
+        });
+    });
+</script>

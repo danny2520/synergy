@@ -1,0 +1,66 @@
+﻿@page
+@model SynergyDotCom.Pages.Shared.Admin.Law.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LawPost[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LawPost[0].LegalCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LawPost[0].CaseReference)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LawPost[0].Analysis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LawPost[0].ImageUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LawPost[0].Date)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.LawPost) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LegalCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaseReference)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Analysis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

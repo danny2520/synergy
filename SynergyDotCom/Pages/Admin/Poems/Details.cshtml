@@ -1,0 +1,170 @@
+﻿@page
+@model SynergyDotCom.Pages.Shared.Admin.Poems.DetailsModel
+
+@{
+    ViewData["Title"] = Model.Poem.Title;
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+    /* VOID THEME VARIABLES */
+    :root {
+        --void-bg: #050a14;
+        --void-paper: rgba(255, 255, 255, 0.03);
+        --neon-cyan: #00d2ff;
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-main: #e0e0e0;
+    }
+
+    body {
+        background-color: var(--void-bg);
+        color: var(--text-main);
+        font-family: 'Montserrat', sans-serif;
+        background-image: radial-gradient(circle at 50% 0%, #1a1f2e 0%, #050a14 80%);
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    .reading-room {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 0;
+    }
+
+    .poem-paper {
+        background: var(--void-paper);
+        border: 1px solid var(--glass-border);
+        padding: 4rem;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        position: relative;
+        border-radius: 2px;
+    }
+
+        /* Decorative Quote Mark */
+        .poem-paper::before {
+            content: '"';
+            font-family: 'Cinzel', serif;
+            font-size: 8rem;
+            position: absolute;
+            top: -40px;
+            left: 30px;
+            color: rgba(255, 255, 255, 0.05);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+    .poem-title {
+        font-family: 'Cinzel', serif;
+        font-size: 3rem;
+        color: white;
+        margin-bottom: 10px;
+        text-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+        letter-spacing: 2px;
+    }
+
+    .poem-meta {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.85rem;
+        color: var(--neon-cyan);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 40px;
+        display: block;
+        opacity: 0.9;
+    }
+
+    .poem-image {
+        max-height: 400px;
+        width: 100%;
+        object-fit: cover;
+        margin-bottom: 50px;
+        opacity: 0.8;
+        filter: grayscale(30%) contrast(110%);
+        border-radius: 2px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .poem-content {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.5rem;
+        line-height: 2;
+        color: #d1d5db;
+        white-space: pre-wrap; /* Crucial for stanza formatting */
+        margin-bottom: 3rem;
+    }
+
+    .btn-glow {
+        color: rgba(255,255,255,0.7);
+        border: 1px solid rgba(255,255,255,0.2);
+        padding: 12px 35px;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-size: 0.75rem;
+        transition: 0.4s;
+        display: inline-block;
+        background: transparent;
+    }
+
+        .btn-glow:hover {
+            background: rgba(0, 210, 255, 0.1);
+            border-color: var(--neon-cyan);
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+
+    /* Mobile Responsiveness - NOTE THE DOUBLE @@ BELOW */
+    @@media (max-width: 768px) {
+        .poem-paper {
+            padding: 2rem;
+        }
+
+        .poem-title {
+            font-size: 2rem;
+        }
+
+        .poem-content {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+
+<div class="reading-room">
+    <div class="container">
+        <div class="poem-paper">
+
+            <h1 class="poem-title">@Html.DisplayFor(model => model.Poem.Title)</h1>
+            <span class="poem-meta">
+                By @Html.DisplayFor(model => model.Poem.Author) &bull; @Model.Poem.PublishedDate.ToString("yyyy")
+            </span>
+
+            @if (!string.IsNullOrEmpty(Model.Poem.ImageUrl))
+            {
+                <img src="@Model.Poem.ImageUrl" class="poem-image" alt="Poem Artwork">
+            }
+
+            <div class="poem-content">
+                @if (Model.Poem.GetType().GetProperty("Body") != null)
+                {
+                    @Html.Raw(Model.Poem.GetType().GetProperty("Body")?.GetValue(Model.Poem)?.ToString()?.Replace("\n", "<br>"))
+                }
+                else if (Model.Poem.GetType().GetProperty("Content") != null)
+                {
+                    @Html.Raw(Model.Poem.GetType().GetProperty("Content")?.GetValue(Model.Poem)?.ToString()?.Replace("\n", "<br>"))
+                }
+            </div>
+
+            <div class="mt-5">
+                <a asp-page="/Anthology" class="btn-glow">Close Archive</a>
+            </div>
+
+        </div>
+    </div>
+</div>

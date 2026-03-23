@@ -1,0 +1,56 @@
+﻿@page
+@model SynergyDotCom.Pages.ContactModel
+@{
+    ViewData["Title"] = "Connect";
+}
+
+<div class="container pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="glass-card p-5">
+                <h1 class="text-center mb-4 display-5 fw-bold">
+                    Connect with <span class="text-cyan">SYNERGY</span>
+                </h1>
+                <p class="text-center text-light opacity-75 mb-5">
+                    Have a legal question? A political opinion? Or a poem to submit?
+                    Transmit your data below.
+                </p>
+
+                @if (!string.IsNullOrEmpty(Model.Message))
+                {
+                    <div class="alert alert-info text-center rounded-0 border-info mb-4" role="alert">
+                        @Model.Message
+                    </div>
+                }
+
+                <form method="post">
+                    <div class="mb-4">
+                        <label class="form-label text-cyan fw-bold">IDENTIFICATION</label>
+                        <input type="text" asp-for="Form.Name" class="form-control form-control-lg" placeholder="Enter your name" required
+                               style="background: rgba(0,0,0,0.5); border: 1px solid #00d2ff; color: white;">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-cyan fw-bold">DIGITAL ADDRESS</label>
+                        <input type="email" asp-for="Form.Email" class="form-control form-control-lg" placeholder="name@example.com" required
+                               style="background: rgba(0,0,0,0.5); border: 1px solid #00d2ff; color: white;">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-cyan fw-bold">TRANSMISSION</label>
+                        <textarea asp-for="Form.Message" class="form-control" rows="5" placeholder="Type your message here..." required
+                                  style="background: rgba(0,0,0,0.5); border: 1px solid #00d2ff; color: white;"></textarea>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-neon btn-lg">
+                            SEND TRANSMISSION
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

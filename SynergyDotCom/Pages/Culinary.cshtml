@@ -1,0 +1,413 @@
+﻿@page
+@model SynergyDotCom.Pages.CulinaryModel
+@{
+    ViewData["Title"] = "Synergy Gastronomy Institute";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+<style>
+    /* ================= LUXURY THEME VARIABLES ================= */
+    :root {
+        --gastro-gold: #d4af37;
+        --gastro-black: #0b0b0b;
+        --gastro-dark: #151515;
+        --gastro-text: #e0e0e0;
+        --font-heading: 'Cormorant Garamond', serif;
+        --font-body: 'Montserrat', sans-serif;
+    }
+
+    body {
+        background-color: var(--gastro-black);
+        color: var(--gastro-text);
+        font-family: var(--font-body);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-heading);
+    }
+
+    /* PARALLAX HERO */
+    .gastro-hero {
+        height: 90vh;
+        background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80');
+        background-attachment: fixed;
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-bottom: 2px solid var(--gastro-gold);
+    }
+
+    .hero-title {
+        font-size: 5rem;
+        font-weight: 300;
+        color: var(--gastro-gold);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: white;
+        margin-bottom: 3rem;
+    }
+
+    .btn-gold {
+        border: 1px solid var(--gastro-gold);
+        color: var(--gastro-gold);
+        padding: 15px 40px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: 0.4s;
+        text-decoration: none;
+    }
+
+        .btn-gold:hover {
+            background: var(--gastro-gold);
+            color: black;
+        }
+
+    /* MENU GRID */
+    .menu-section {
+        padding: 80px 0;
+        background-color: var(--gastro-black);
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+        margin-top: 40px;
+    }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+    .section-divider {
+        width: 80px;
+        height: 1px;
+        background: var(--gastro-gold);
+        margin: 0 auto;
+    }
+
+    .category-label {
+        color: var(--gastro-gold);
+        letter-spacing: 3px;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    /* CARDS */
+    .menu-card {
+        background: var(--gastro-dark);
+        border: 1px solid #222;
+        margin-bottom: 30px;
+        transition: 0.4s;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gastro-gold);
+        }
+
+    .card-img-wrapper {
+        height: 280px;
+        overflow: hidden;
+    }
+
+        .card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.6s;
+            filter: brightness(0.85);
+        }
+
+    .menu-card:hover .card-img-wrapper img {
+        transform: scale(1.1);
+        filter: brightness(1);
+    }
+
+    .card-content {
+        padding: 25px;
+        text-align: center;
+    }
+
+    .dish-title {
+        font-size: 1.8rem;
+        color: white;
+        margin-bottom: 10px;
+    }
+
+    .dish-desc {
+        font-size: 0.85rem;
+        color: #999;
+        font-weight: 300;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .dish-meta {
+        border-top: 1px solid #333;
+        padding-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: #aaa;
+        letter-spacing: 1px;
+    }
+
+    /* MODALS */
+    .modal-content {
+        background-color: #1a1a1a;
+        color: white;
+        border: 1px solid var(--gastro-gold);
+        border-radius: 0;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid #333;
+    }
+
+    .modal-title {
+        font-family: var(--font-heading);
+        font-size: 2.5rem;
+        color: var(--gastro-gold);
+    }
+
+    .close-modal-btn {
+        color: white;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+    }
+
+    .recipe-list-item {
+        padding: 10px 0;
+        border-bottom: 1px solid #333;
+        font-weight: 300;
+        display: flex;
+        align-items: center;
+    }
+
+        .recipe-list-item i {
+            color: var(--gastro-gold);
+            margin-right: 15px;
+            font-size: 0.8rem;
+        }
+
+    .step-number {
+        font-family: var(--font-heading);
+        font-size: 3rem;
+        color: #333;
+        line-height: 1;
+        margin-right: 20px;
+    }
+
+    .text-gold {
+        color: var(--gastro-gold) !important;
+    }
+</style>
+
+<div class="gastro-hero">
+    <div>
+        <h5 class="hero-subtitle">The Synergy Culinary Collection</h5>
+        <h1 class="hero-title">Heritage on a Plate</h1>
+        <p class="text-white opacity-75 mb-5" style="font-weight: 300; letter-spacing: 1px;">FROM LAGOS TO CAPE TOWN &bull; CURATED FINE DINING</p>
+        <a href="#menu" class="btn-gold">VIEW FULL MENU</a>
+    </div>
+</div>
+
+<div class="menu-section" id="menu">
+    <div class="container">
+
+        <div class="section-header">
+            <span class="category-label">Curated Selection</span>
+            <h2>Today's Specials</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        @if (Model.Dishes != null && Model.Dishes.Any())
+        {
+            <div class="row g-4 mb-5">
+                @foreach (var item in Model.Dishes)
+                {
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                        <div class="menu-card" data-bs-toggle="modal" data-bs-target="#modalDish-@item.Id">
+                            <div class="card-img-wrapper">
+                                <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80" : item.ImageUrl)" alt="@item.Name">
+                            </div>
+                            <div class="card-content">
+                                <h3 class="dish-title">@item.Name</h3>
+                                <p class="dish-desc">
+                                    @(item.Description != null && item.Description.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)
+                                </p>
+                                <div class="dish-meta">
+                                    <span><i class="bi bi-clock"></i> @item.PrepTime</span>
+                                    <span><i class="bi bi-tag text-gold"></i> ₦@item.Price</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center text-muted mb-5">Our chefs are preparing new specials. Check back soon.</div>
+        }
+        <div class="section-header">
+            <span class="category-label">First Course</span>
+            <h2>The Grain Harvest</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="menu-card" data-bs-toggle="modal" data-bs-target="#modalJollof">
+                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80" alt="Jollof"></div>
+                    <div class="card-content">
+                        <h3 class="dish-title">Smokey Jollof</h3>
+                        <p class="dish-desc">The national treasure. Long grain rice infused with tomato reduction and scotch bonnets, finished with wood smoke.</p>
+                        <div class="dish-meta"><span><i class="bi bi-clock"></i> 45 MINS</span><span><i class="bi bi-fire text-gold"></i> SPICY</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="menu-card" data-bs-toggle="modal" data-bs-target="#modalOfada">
+                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1626804475297-411d8c6b7185?auto=format&fit=crop&q=80" alt="Ofada"></div>
+                    <div class="card-content">
+                        <h3 class="dish-title">Ofada & Ayamase</h3>
+                        <p class="dish-desc">Unpolished indigenous fermented rice served with a spicy green pepper sauce (Ayamase) and assorted meats.</p>
+                        <div class="dish-meta"><span><i class="bi bi-clock"></i> 60 MINS</span><span><i class="bi bi-gem text-gold"></i> PREMIUM</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="menu-card" data-bs-toggle="modal" data-bs-target="#modalFriedRice">
+                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1603133872878-684f108fd034?auto=format&fit=crop&q=80" alt="Fried Rice"></div>
+                    <div class="card-content">
+                        <h3 class="dish-title">Nigerian Fried Rice</h3>
+                        <p class="dish-desc">Turmeric and curry infused basmati stir-fried with liver, shrimp, carrots, and sweet corn. A festive favorite.</p>
+                        <div class="dish-meta"><span><i class="bi bi-clock"></i> 50 MINS</span><span><i class="bi bi-star text-gold"></i> CLASSIC</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <span class="category-label">Second Course</span>
+            <h2>Native Soups</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-3 col-md-6" data-aos="fade-up">
+                <div class="menu-card" data-bs-toggle="modal" data-bs-target="#modalEgusi">
+                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1648421715656-749503947479?auto=format&fit=crop&q=80" alt="Egusi"></div>
+                    <div class="card-content">
+                        <h3 class="dish-title">Royal Egusi</h3>
+                        <p class="dish-desc">Ground melon seed soup with stockfish and bitter leaf.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="menu-card" data-bs-toggle="modal" data-bs-target="#modalAfang">
+                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1547516508-4c1f9c7c47ee?auto=format&fit=crop&q=80" alt="Afang"></div>
+                    <div class="card-content">
+                        <h3 class="dish-title">Afang Soup</h3>
+                        <p class="dish-desc">A rich vegetable soup (Okazi & Waterleaf) from Calabar.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="menu-card" data-bs-toggle="modal" data-bs-target="#modalAmala">
+                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1574484284008-59d7aa98652d?auto=format&fit=crop&q=80" alt="Amala"></div>
+                    <div class="card-content">
+                        <h3 class="dish-title">Amala & Ewedu</h3>
+                        <p class="dish-desc">Dark yam flour dough with Jute leaf soup.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="menu-card" data-bs-toggle="modal" data-bs-target="#modalPoundedYam">
+                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80" alt="Pounded Yam"></div>
+                    <div class="card-content">
+                        <h3 class="dish-title">Pounded Yam</h3>
+                        <p class="dish-desc">Iyan. Smooth, stretchy dough made from boiled yams.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@if (Model.Dishes != null)
+{
+    @foreach (var item in Model.Dishes)
+    {
+        <div class="modal fade" id="modalDish-@item.Id" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@item.Name</h5>
+                        <button type="button" class="close-modal-btn" data-bs-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body p-5">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="text-gold mb-4">Method & Preparation</h4>
+                                <div class="text-white opacity-75" style="line-height: 1.8;">
+                                    @if (!string.IsNullOrEmpty(item.Method))
+                                    {
+                                        @item.Method
+                                    }
+                                    else
+                                    {
+                                        <span>Preparation method not listed. Contact the chef for details.</span>
+                                    }
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(item.Ingredients))
+                                {
+                                    <h4 class="text-gold mt-4 mb-3">Key Ingredients</h4>
+                                    <p class="text-white small">@item.Ingredients</p>
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                <div class="bg-dark p-4 border border-secondary text-center">
+                                    <h2 class="text-gold display-4">₦@item.Price</h2>
+                                    <p class="text-muted text-uppercase ls-2">Current Market Price</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<div class="modal fade" id="modalJollof" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Nigerian Party Jollof</h5><button type="button" class="close-modal-btn" data-bs-dismiss="modal">&times;</button></div><div class="modal-body p-5"><h4 class="text-gold mb-4">Method</h4><p>1. Fry tomato paste in oil until dark red.<br>2. Add stock, curry, thyme, and bay leaves.<br>3. Steam rice (do not boil).<br>4. Burn the bottom for smokiness.</p></div></div></div></div>
+<div class="modal fade" id="modalOfada" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Ofada Rice & Ayamase</h5><button type="button" class="close-modal-btn" data-bs-dismiss="modal">&times;</button></div><div class="modal-body p-5"><h4 class="text-gold mb-4">Method</h4><p>1. Bleach palm oil until clear.<br>2. Fry blended green peppers and onions.<br>3. Add Iru, assorted meats, and boiled egg.<br>4. Serve with unpolished local rice.</p></div></div></div></div>
+<div class="modal fade" id="modalFriedRice" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Nigerian Fried Rice</h5><button type="button" class="close-modal-btn" data-bs-dismiss="modal">&times;</button></div><div class="modal-body p-5"><h4 class="text-gold mb-4">Method</h4><p>1. Parboil rice with turmeric/curry.<br>2. Stir fry veggies separately.<br>3. Mix rice and veggies in batches.</p></div></div></div></div>
+<div class="modal fade" id="modalEgusi" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Egusi Soup</h5><button type="button" class="close-modal-btn" data-bs-dismiss="modal">&times;</button></div><div class="modal-body p-5"><h4 class="text-gold mb-4">Method</h4><p>1. Blend melon seeds.<br>2. Fry lumps in palm oil.<br>3. Add stockfish and bitterleaf.</p></div></div></div></div>
+<div class="modal fade" id="modalAfang" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Afang Soup</h5><button type="button" class="close-modal-btn" data-bs-dismiss="modal">&times;</button></div><div class="modal-body p-5"><h4 class="text-gold mb-4">Method</h4><p>1. Grind Okazi leaves.<br>2. Cook waterleaf with meats and palm oil.<br>3. Add Okazi and Periwinkles. Simmer briefly.</p></div></div></div></div>
+<div class="modal fade" id="modalAmala" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Amala & Ewedu</h5><button type="button" class="close-modal-btn" data-bs-dismiss="modal">&times;</button></div><div class="modal-body p-5"><h4 class="text-gold mb-4">Method</h4><p>1. Stir yam flour in boiling water until smooth.<br>2. Blend/whisk Jute leaves (Ewedu) with potash.</p></div></div></div></div>
+<div class="modal fade" id="modalPoundedYam" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Pounded Yam</h5><button type="button" class="close-modal-btn" data-bs-dismiss="modal">&times;</button></div><div class="modal-body p-5"><h4 class="text-gold mb-4">Method</h4><p>1. Boil yam until soft.<br>2. Pound in mortar or food processor until stretchy and smooth.<br>3. Serve hot.</p></div></div></div></div>

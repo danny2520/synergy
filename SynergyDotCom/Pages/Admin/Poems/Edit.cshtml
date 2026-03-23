@@ -1,0 +1,66 @@
+﻿@page
+@model SynergyDotCom.Pages.Shared.Admin.Poems.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Poem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Poem.Id" />
+            <div class="form-group">
+<span class="text-danger">*</span>
+                <label asp-for="Poem.Title" class="control-label"></label>
+                <input asp-for="Poem.Title" class="form-control" aria-required="true"/>
+                <span asp-validation-for="Poem.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Poem.Theme" class="control-label"></label>
+                <input asp-for="Poem.Theme" class="form-control" />
+                <span asp-validation-for="Poem.Theme" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Poem.Excerpt" class="control-label"></label>
+                <input asp-for="Poem.Excerpt" class="form-control" />
+                <span asp-validation-for="Poem.Excerpt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Poem.Body" class="control-label"></label>
+                <input asp-for="Poem.Body" class="form-control" />
+                <span asp-validation-for="Poem.Body" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Poem.ImageUrl" class="control-label"></label>
+                <input asp-for="Poem.ImageUrl" class="form-control" />
+                <span asp-validation-for="Poem.ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Poem.PublishedDate" class="control-label"></label>
+                <input asp-for="Poem.PublishedDate" class="form-control" />
+                <span asp-validation-for="Poem.PublishedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Poem.Author" class="control-label"></label>
+                <input asp-for="Poem.Author" class="form-control" />
+                <span asp-validation-for="Poem.Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

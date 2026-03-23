@@ -1,0 +1,369 @@
+﻿@page
+@model SynergyDotCom.Pages.AnthologyModel
+@{
+    ViewData["Title"] = "The Anthology";
+
+    // Helper to cycle distinct neon colors for the cards
+    var colors = new[] { "--neon-cyan", "--neon-gold", "--neon-purple", "--neon-green", "#ff5252", "#ff4081" };
+    int colorIndex = 0;
+
+    // Split data: Newest one is Featured, the rest go to the Grid
+    var featuredPoem = Model.Poems.FirstOrDefault();
+    var gridPoems = Model.Poems.Skip(1).ToList();
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+<style>
+    /* ================= CINEMATIC DARK THEME ================= */
+    :root {
+        --void-bg: #050a14;
+        --glass-bg: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --neon-cyan: #00d2ff;
+        --neon-purple: #9d4edd;
+        --neon-gold: #ffb703;
+        --neon-green: #06d6a0;
+        --text-main: #ffffff; /* Changing to pure white for better visibility */
+        --text-muted: #a3b3c8; /* Lighter muted color */
+        --font-display: 'Cinzel', serif;
+        --font-reading: 'Cormorant Garamond', serif;
+        --font-ui: 'Montserrat', sans-serif;
+    }
+
+    body {
+        background-color: var(--void-bg);
+        color: var(--text-main);
+        font-family: var(--font-ui);
+        background-image: radial-gradient(circle at 15% 50%, rgba(0, 210, 255, 0.04), transparent 25%), radial-gradient(circle at 85% 30%, rgba(157, 78, 221, 0.04), transparent 25%);
+        background-attachment: fixed;
+    }
+
+    /* --- HERO SECTION --- */
+    .anthology-hero {
+        padding: 100px 0 60px;
+        text-align: center;
+        border-bottom: 1px solid var(--glass-border);
+        margin-bottom: 60px;
+        background: linear-gradient(to bottom, rgba(5, 10, 20, 0.8), #050a14), url('https://images.unsplash.com/photo-1478720568477-152d9b164e63?auto=format&fit=crop&q=80');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .hero-title {
+        font-family: var(--font-display);
+        font-size: 4rem;
+        letter-spacing: 5px;
+        color: white;
+        margin-bottom: 15px;
+        text-shadow: 0 0 20px rgba(0,0,0,0.8); /* Added shadow for pop */
+    }
+
+    /* --- FEATURED CARD (LANDSCAPE FIX) --- */
+    .featured-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: blur(12px);
+        margin-bottom: 60px;
+        overflow: hidden;
+        border-radius: 4px;
+        transition: transform 0.3s ease;
+    }
+
+        .featured-card:hover {
+            border-color: var(--neon-cyan);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+    .featured-img {
+        height: 100%;
+        min-height: 400px;
+        width: 100%;
+        object-fit: cover;
+        filter: grayscale(40%);
+        transition: 0.5s;
+    }
+
+    .featured-card:hover .featured-img {
+        filter: grayscale(0%);
+    }
+
+    /* --- STANDARD GLASS CARDS --- */
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        border-radius: 2px;
+        padding: 30px;
+        transition: transform 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+    .poem-meta {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--text-muted);
+        margin-bottom: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .poem-title-card {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+        color: white;
+        line-height: 1.2;
+    }
+
+    .poem-excerpt {
+        font-family: var(--font-reading);
+        font-size: 1.3rem; /* Slightly larger */
+        color: #e2e8f0; /* Brighter text color */
+        font-style: italic;
+        margin-bottom: 25px;
+        border-left: 3px solid var(--glass-border);
+        padding-left: 15px;
+        line-height: 1.6;
+        flex-grow: 1;
+        opacity: 0.9; /* Slightly transparent but readable */
+    }
+
+    .btn-read {
+        background: transparent;
+        color: white;
+        border: 1px solid var(--glass-border);
+        padding: 12px;
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        transition: 0.3s;
+        text-decoration: none;
+        text-align: center;
+        width: 100%;
+        display: block;
+        margin-top: auto;
+    }
+
+        .btn-read:hover {
+            background: white;
+            color: black;
+        }
+
+    /* --- SIDEBAR --- */
+    .sidebar-wrapper {
+        position: sticky;
+        top: 100px;
+    }
+
+    .sidebar-widget {
+        background: #0a0f1c;
+        border: 1px solid var(--glass-border);
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+
+    /* --- MODALS --- */
+    .modal-content {
+        background-color: #0f1219;
+        border: 1px solid var(--glass-border);
+        color: white;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid var(--glass-border);
+        padding: 1.5rem;
+    }
+
+    .modal-body {
+        padding: 3rem;
+    }
+
+    .modal-poem-text {
+        font-family: var(--font-reading);
+        font-size: 1.5rem; /* Larger for better reading */
+        line-height: 2.2;
+        color: #ffffff; /* Pure white text */
+        white-space: pre-wrap;
+        text-align: center;
+        font-weight: 400; /* Standard weight */
+    }
+
+    .signature {
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        margin-top: 40px;
+        display: block;
+        opacity: 0.7;
+    }
+</style>
+
+<div class="anthology-hero">
+    <div class="container position-relative z-2">
+        <div style="border: 1px solid var(--neon-cyan); color: var(--neon-cyan); display: inline-block; padding: 5px 15px; font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 20px;">VOLUME V</div>
+        <h1 class="hero-title" data-aos="fade-up">The Spoken Word</h1>
+        <p class="lead mx-auto" style="max-width: 600px; color: #d1d5db; font-size: 1.1rem;">
+            "We write to taste life twice." <br> An immersive digital gallery of verses from the heart of Lagos.
+        </p>
+    </div>
+</div>
+
+<div class="container" style="padding-bottom: 120px;">
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            @if (featuredPoem != null)
+            {
+                <div class="featured-card" data-aos="fade-up">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-md-7 p-5">
+                            <span class="poem-meta" style="color: var(--neon-gold);"><i class="bi bi-star-fill"></i> Curator's Choice</span>
+                            <h2 class="display-5 text-white mb-3" style="font-family: var(--font-display);">@featuredPoem.Title</h2>
+                            <div class="poem-excerpt" style="border-left-color: var(--neon-gold); color: white;">
+                                "@(featuredPoem.Excerpt ?? (featuredPoem.Content != null && featuredPoem.Content.Length > 120 ? featuredPoem.Content.Substring(0, 120) + "..." : featuredPoem.Content))"
+                            </div>
+                            <button class="btn-read mt-4" style="width: auto; padding: 10px 40px;" data-bs-toggle="modal" data-bs-target="#modalPoem-@featuredPoem.Id">READ FULL PIECE</button>
+                        </div>
+                        <div class="col-md-5 d-none d-md-block h-100">
+                            <img src="@(string.IsNullOrEmpty(featuredPoem.ImageUrl) ? "https://images.unsplash.com/photo-1519681393784-d8e5b5a4570e?auto=format&fit=crop&q=80" : featuredPoem.ImageUrl)" class="featured-img" alt="Poem Art">
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-dark border border-secondary text-center mb-5" style="color: #ccc;">
+                    No poems found in the archives. Add one in the Admin panel.
+                </div> 
+            }
+
+            <div class="row g-4">
+                @foreach (var item in gridPoems)
+                {
+                    // Cycle through colors
+                    var currentColor = colors[colorIndex % colors.Length];
+                    colorIndex++;
+
+                    <div class="col-md-6" data-aos="fade-up">
+                        <div class="glass-card">
+                            <span class="poem-meta" style="color: @currentColor;">@(!string.IsNullOrEmpty(item.Theme) ? item.Theme : "Poetry")</span>
+
+                            <h3 class="poem-title-card">@item.Title</h3>
+
+                            <div class="poem-excerpt" style="border-color: @currentColor;">
+                                "@(item.Excerpt ?? (item.Content != null && item.Content.Length > 80 ? item.Content.Substring(0, 80) + "..." : item.Content))"
+                            </div>
+
+                            <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalPoem-@item.Id">Read Poem</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-lg-4 ps-lg-5">
+            <div class="sidebar-wrapper">
+
+                <div class="sidebar-widget text-center">
+                    <div class="position-relative d-inline-block mb-3">
+                        <img src="~/images/me.jpg"
+                             class="rounded-circle border border-2 border-secondary"
+                             style="width: 100px; height: 100px; object-fit: cover; filter: grayscale(20%);"
+                             alt="The Curator"
+                             onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80'">
+                    </div>
+                    <h5 class="text-white mb-1">The Curator</h5>
+                    <p class="text-muted small font-monospace">OBATAYO ADE</p>
+                    <p class="small text-white-50 fst-italic">"Poet. Lawyer."</p>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h6 class="widget-title text-center border-0 p-0 mb-2">Word of the Day</h6>
+                    <div class="text-center py-2">
+                        <h2 class="display-5 fw-bold mb-2" id="wod-word" style="color: var(--neon-cyan);">Loading...</h2>
+                        <div id="wod-content" class="text-muted mb-3 small"></div>
+                        <button class="btn btn-sm btn-outline-secondary w-100 rounded-0" onclick="loadWord()"><i class="bi bi-shuffle"></i> Refresh</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Poems != null)
+{
+    @foreach (var item in Model.Poems)
+    {
+        <div class="modal fade" id="modalPoem-@item.Id" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="text-muted small font-monospace">VOL V / ARCHIVE #@item.Id</span>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-5">
+                        <h2 class="text-center mb-5 display-5" style="color: var(--neon-cyan);">@item.Title</h2>
+
+                        <div class="modal-poem-text text-center reading-text">
+                            @if (!string.IsNullOrEmpty(item.Body))
+                            {
+                                @Html.Raw(item.Body.Replace("\n", "<br>"))
+                            }
+                            else
+                            {
+                                @Html.Raw(item.Content?.Replace("\n", "<br>"))
+                            }
+                        </div>
+
+                        <div class="text-center mt-5">
+                            <span class="signature">@(!string.IsNullOrEmpty(item.Poet) ? item.Poet : item.Author)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadWord();
+    });
+
+    function loadWord() {
+        const words = [
+            { w: "Soro Soke", o: "Yoruba", l: "Speak Up", m: "A generational call to action against silence." },
+            { w: "Ubuntu", o: "Zulu", l: "Humanity", m: "I am because we are. The universal bond of sharing." },
+            { w: "Petrichor", o: "English", l: "Earth Smell", m: "The pleasant, earthy smell after rain." },
+            { w: "Sonder", o: "English", l: "Realization", m: "The realization that each passerby lives a life as vivid as your own." },
+            { w: "Kintsugi", o: "Japanese", l: "Golden Joinery", m: "Treating scars and cracks as part of the beauty." },
+            { w: "Fernweh", o: "German", l: "Far-sickness", m: "A longing for far-off places you've never been." },
+            { w: "Ineffable", o: "Latin", l: "Unutterable", m: "Too great or extreme to be expressed in words." }
+        ];
+
+        const randomWord = words[Math.floor(Math.random() * words.length)];
+
+        document.getElementById("wod-word").innerText = randomWord.w;
+        document.getElementById("wod-content").innerHTML = `
+            <p class="mb-2 text-uppercase small ls-2" style="color:var(--neon-cyan)">${randomWord.o} &bull; "${randomWord.l}"</p>
+            <p class="fst-italic text-white">${randomWord.m}</p>
+        `;
+    }
+</script>

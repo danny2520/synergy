@@ -1,0 +1,544 @@
+﻿@page
+@model SynergyDotCom.Pages.LawModel
+@{
+    ViewData["Title"] = "Law & Property";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+<style>
+    :root {
+        --synergy-cyan: #00d2ff;
+        --synergy-dark: #0f172a;
+        --synergy-gold: #c5a059;
+        --synergy-red: #d90429;
+    }
+
+    /* --- Ticker --- */
+    .news-ticker-wrap {
+        background: var(--synergy-dark);
+        color: white;
+        overflow: hidden;
+        height: 40px;
+        line-height: 40px;
+        position: relative;
+        border-bottom: 2px solid var(--synergy-gold);
+    }
+
+    .ticker-label {
+        background: var(--synergy-gold);
+        color: #000;
+        font-weight: 800;
+        padding: 0 20px;
+        position: absolute;
+        z-index: 2;
+        height: 100%;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+
+    .ticker-content {
+        display: inline-block;
+        white-space: nowrap;
+        padding-left: 100%;
+        animation: ticker 60s linear infinite;
+        font-size: 0.9rem;
+    }
+
+        .ticker-content span {
+            margin-right: 50px;
+        }
+
+    @@keyframes ticker {
+        0% {
+            transform: translate3d(0, 0, 0);
+        }
+
+        100% {
+            transform: translate3d(-100%, 0, 0);
+        }
+    }
+
+    /* --- Hero --- */
+    .law-header-card {
+        background: linear-gradient(45deg, #000000, #1a1a1a);
+        color: white;
+        border-radius: 0;
+        padding: 4rem 2rem;
+        border-bottom: 5px solid var(--synergy-cyan);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .law-header-bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0.2;
+        background-image: url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80');
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* --- Typography & Cards --- */
+    .section-header {
+        border-left: 5px solid var(--synergy-cyan);
+        padding-left: 15px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--synergy-dark);
+        margin-bottom: 1.5rem;
+    }
+
+    /* Shared Styles */
+    .card-article {
+        border: none;
+        background-color: white !important;
+        border-bottom: 1px solid #eee;
+        transition: transform 0.3s ease;
+        margin-bottom: 20px;
+        cursor: pointer;
+        height: 100%;
+    }
+
+        .card-article:hover {
+            transform: translateY(-5px);
+            background-color: #f8f9fa !important;
+            box-shadow: 0 10px 20px rgba(0,210,255,0.1);
+        }
+
+        .card-article img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .card-article h4, .card-article h5 {
+            color: #000 !important;
+            font-weight: bold;
+        }
+
+        .card-article p, .card-article .card-text {
+            color: #444 !important;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+    .source-tag {
+        background-color: #e3f2fd;
+        color: var(--synergy-dark);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    /* --- Sidebar --- */
+    .sidebar-widget {
+        background: white;
+        color: #000;
+        border: 1px solid #dee2e6;
+        padding: 20px;
+        border-radius: 4px;
+        margin-bottom: 25px;
+    }
+
+        .sidebar-widget.bg-dark {
+            background-color: #212529 !important;
+            color: white !important;
+        }
+
+    .btn-cyan {
+        background-color: var(--synergy-cyan);
+        color: #000;
+        font-weight: bold;
+        border: none;
+    }
+
+        .btn-cyan:hover {
+            background-color: #00b8e6;
+            color: #fff;
+        }
+
+    /* --- Modals --- */
+    .modal-content {
+        background-color: white;
+        color: black !important;
+        border-top: 5px solid var(--synergy-cyan);
+    }
+
+    .modal-body p {
+        color: #333 !important;
+        font-size: 1.1rem;
+    }
+
+    .legal-citation {
+        background: #f1f5f9;
+        color: #000 !important;
+        padding: 15px;
+        border-left: 3px solid var(--synergy-gold);
+        font-style: italic;
+        font-family: serif;
+        margin: 20px 0;
+    }
+</style>
+
+<div class="news-ticker-wrap mb-0">
+    <div class="ticker-label">COURT NEWS</div>
+    <div class="ticker-content" id="tickerContainer">
+        <span><i class="bi bi-gavel text-warning"></i> Loading Supreme Court updates...</span>
+    </div>
+</div>
+
+<div class="law-header-card shadow-lg mb-5">
+    <div class="law-header-bg"></div>
+    <div class="position-relative z-1">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <span class="badge bg-transparent border border-info text-info mb-2">SYNERGY LEGAL</span>
+                    <h1 class="display-4 fw-bold mb-3">Justice, Property & Rights</h1>
+                    <p class="lead text-white-50">Real-time updates from the Nigerian Bar Association, Supreme Court Judgments, and Property Law amendments.</p>
+                    <div class="d-flex gap-2 mt-4">
+                        <button class="btn btn-cyan px-4 py-2" onclick="document.getElementById('databaseSection').scrollIntoView()">Chamber Updates</button>
+                        <a href="#analysis" class="btn btn-outline-light px-4 py-2">In-Depth Analysis</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <div class="row g-0 bg-white shadow-sm border rounded mb-5">
+                <div class="col-md-3 p-3 text-center border-end">
+                    <h3 class="fw-bold text-dark">500+</h3>
+                    <p class="text-muted small mb-0">Case Files</p>
+                </div>
+                <div class="col-md-3 p-3 text-center border-end">
+                    <h3 class="fw-bold text-dark">36</h3>
+                    <p class="text-muted small mb-0">States Covered</p>
+                </div>
+                <div class="col-md-6 p-3 d-flex align-items-center justify-content-center bg-light">
+                    <span class="text-success fw-bold"><i class="bi bi-broadcast me-2"></i> Live Feed Active</span>
+                </div>
+            </div>
+
+            <div id="databaseSection" class="mb-5">
+                <h2 class="section-header mb-4">Chamber Updates (From Database)</h2>
+
+                @if (Model.LawPosts != null && Model.LawPosts.Any())
+                {
+                    <div class="row g-4">
+                        @foreach (var item in Model.LawPosts)
+                        {
+                            <div class="col-md-6">
+                                <div class="card card-article h-100">
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@item.ImageUrl" alt="Case Image">
+                                    }
+                                    <div class="card-body">
+                                        <div class="article-meta mb-2">
+                                            <span class="source-tag bg-warning text-dark">@item.LegalCategory</span>
+                                            <span class="text-muted small ms-2">@item.Date.ToShortDateString()</span>
+                                        </div>
+                                        <h5 class="card-title text-dark">@item.Title</h5>
+                                        <p class="card-text small">
+                                            @(item.Analysis != null && item.Analysis.Length > 100 ? item.Analysis.Substring(0, 100) + "..." : item.Analysis)
+                                        </p>
+                                        <div class="mt-3 d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-light text-dark border">@item.CaseReference</span>
+                                            <a asp-page="/Admin/Law/Details" asp-route-id="@item.Id" class="text-decoration-none fw-bold text-info stretched-link">Read Full Case &rarr;</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-light border">No case files in the database yet. Use the Admin panel to create one.</div>
+                }
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2" id="liveFeed">
+                <h2 class="section-header mb-0">External Legal Briefs</h2>
+                <button class="btn btn-sm btn-outline-dark" onclick="location.reload()"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+            </div>
+
+            <div class="row g-4 mb-5" id="lawNewsGrid">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-info" role="status" style="width: 3rem; height: 3rem;"></div>
+                    <p class="mt-3 text-muted fw-bold">Connecting to TheNigeriaLawyer & Supreme Court Feeds...</p>
+                </div>
+            </div>
+
+            <div id="analysis" class="mt-5 pt-4 border-top">
+                <h2 class="section-header mb-4">In-Depth Analysis & Resources</h2>
+
+                <div class="card card-article mb-5">
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80" class="card-img-top" alt="Real Estate" style="height: 300px; object-fit: cover;">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-info fw-bold small">REAL ESTATE</span>
+                            <span class="text-muted small">Updated Dec 2025</span>
+                        </div>
+                        <h3 class="card-title text-dark">The New Land Use Act: What Property Owners Need to Know</h3>
+                        <p class="card-text">An in-depth analysis of the recent amendments proposed to the Land Use Act and how they affect Certificate of Occupancy (C of O) processing in Ogun and Lagos states...</p>
+                        <a href="#" class="btn btn-dark mt-2 stretched-link" data-bs-toggle="modal" data-bs-target="#modalLandUse">Read Full Analysis</a>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="card card-article h-100">
+                            <div class="card-body">
+                                <i class="bi bi-briefcase fs-1 text-secondary mb-3"></i>
+                                <h5 class="card-title text-dark">Corporate Liability</h5>
+                                <p class="card-text small">Understanding director liabilities in limited liability partnerships under the new CAMA act.</p>
+                                <a href="#" class="text-decoration-none fw-bold text-info stretched-link" data-bs-toggle="modal" data-bs-target="#modalCorporate">Read More &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-article h-100">
+                            <div class="card-body">
+                                <i class="bi bi-house-door fs-1 text-secondary mb-3"></i>
+                                <h5 class="card-title text-dark">Tenancy Rights</h5>
+                                <p class="card-text small">Can a landlord increase rent without notice? A look at the Tenancy Laws of Lagos State.</p>
+                                <a href="#" class="text-decoration-none fw-bold text-info stretched-link" data-bs-toggle="modal" data-bs-target="#modalTenancy">Read More &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="sidebar-widget">
+                <h5 class="fw-bold mb-3 text-dark">Case Search</h5>
+                <div class="input-group">
+                    <input type="text" id="pageSearchInput" class="form-control" placeholder="Suit Number or Keyword...">
+                    <button class="btn btn-dark" type="button"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h5 class="fw-bold mb-3 text-dark">Practice Areas</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent ps-0 text-dark">
+                        Real Estate & Property
+                        <span class="badge bg-dark rounded-pill">14</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent ps-0 text-dark">
+                        Commercial Law
+                        <span class="badge bg-dark rounded-pill">8</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent ps-0 text-dark">
+                        Human Rights
+                        <span class="badge bg-dark rounded-pill">12</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget bg-dark text-white consultation-form sticky-top" style="top: 20px; z-index: 1;" id="consult">
+                <h4 class="fw-bold text-white mb-1">Free Case Review</h4>
+                <p class="text-white-50 small mb-3">Get a preliminary opinion on your legal matter.</p>
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label text-info">Topic</label>
+                        <select class="form-select form-select-sm">
+                            <option>Property Dispute</option>
+                            <option>Contract Breach</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-info">Email Address</label>
+                        <input type="email" class="form-control form-control-sm" placeholder="name@example.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-info">Case Details</label>
+                        <textarea class="form-control form-control-sm" rows="3"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-cyan w-100">Submit Request</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalLandUse" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title fw-bold text-dark">The New Land Use Act & Property Ownership</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80" class="img-fluid rounded mb-4 w-100" style="height: 300px; object-fit: cover;" alt="Land" />
+                <h2 class="fw-bold mb-3 text-dark">Understanding the Certificate of Occupancy (C of O)</h2>
+                <p>The Land Use Act of 1978 remains the primary legislation governing land ownership in Nigeria. It vests all land comprised in the territory of each State (except land vested in the Federal Government or its agencies) solely in the Governor of the State, who would hold such land in trust for the people.</p>
+                <div class="legal-citation">"It shall be lawful for the Governor in respect of land, whether or not in an urban area to grant statutory rights of occupancy to any person for all purposes." — Section 5, Land Use Act.</div>
+                <h4 class="mt-4 text-dark">The Importance of Governor's Consent</h4>
+                <p>One of the most critical aspects of property transactions in Nigeria is the requirement for the Governor's Consent. Under Section 22 of the Land Use Act, it is unlawful for the holder of a statutory right of occupancy to alienate his right of occupancy or any part thereof by assignment, mortgage, transfer of possession, sublease, or otherwise without the consent of the Governor first had and obtained.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCorporate" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title fw-bold text-dark">Corporate Liability Under CAMA 2020</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <h2 class="fw-bold mb-3 text-dark">Piercing the Corporate Veil</h2>
+                <p>The Companies and Allied Matters Act (CAMA) 2020 introduced significant changes to the corporate landscape in Nigeria. While a company is a separate legal entity from its owners, there are instances where the law allows the "corporate veil" to be pierced, holding directors personally liable.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalTenancy" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title fw-bold text-dark">Tenancy Laws: Landlord & Tenant Rights</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <h2 class="fw-bold mb-3 text-dark">Notices to Quit</h2>
+                <p>In Lagos State, the relationship between a landlord and a tenant is governed largely by the Tenancy Law of 2011. A frequent point of conflict is the eviction process. A landlord cannot simply throw a tenant out; due process must be followed.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // 1. Define Legal Sources
+        const feeds = [
+            { name: "THE NIGERIA LAWYER", url: "https://thenigerialawyer.com/feed" },
+            { name: "BARRISTER NG", url: "https://barristerng.com/feed" },
+            { name: "COURTROOM MAIL", url: "https://www.courtroommail.com/feed" },
+            { name: "NBA BLOG", url: "https://blog.nigerianbar.org.ng/feed" }
+        ];
+
+        // 2. Filter Noise
+        const blockList = ["big brother", "bbnaija", "davido", "wizkid", "concert", "fashion", "music video"];
+
+        const newsGrid = document.getElementById('lawNewsGrid');
+        const tickerContainer = document.getElementById('tickerContainer');
+        let allStories = [];
+
+        // 3. Fetch
+        const fetchFeed = (source) => {
+            const api = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(source.url)}`;
+            return fetch(api)
+                .then(res => res.json())
+                .then(data => {
+                    if(data.status === 'ok') {
+                        return data.items.map(item => ({...item, sourceName: source.name}));
+                    }
+                    return [];
+                })
+                .catch(err => {
+                    console.warn(`Failed to load ${source.name}`, err);
+                    return [];
+                });
+        };
+
+        // 4. Execute
+        Promise.all(feeds.map(fetchFeed)).then(results => {
+            allStories = results.flat();
+            const filteredStories = allStories.filter(story => {
+                const text = (story.title + " " + story.description).toLowerCase();
+                const isBlocked = blockList.some(keyword => text.includes(keyword));
+                return !isBlocked;
+            }).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+            renderLegalPage(filteredStories);
+        });
+
+        function renderLegalPage(stories) {
+            newsGrid.innerHTML = '';
+            let tickerHtml = '';
+            const displayStories = stories.slice(0, 12);
+
+            if(displayStories.length === 0) {
+                newsGrid.innerHTML = '<div class="alert alert-warning">Legal feeds currently unavailable. Check back later.</div>';
+                return;
+            }
+
+            displayStories.forEach((item, index) => {
+                if(index < 6) {
+                    tickerHtml += `<span><i class="bi bi-gavel text-warning"></i> <span class="text-info">[${item.sourceName}]</span> ${item.title}</span>`;
+                }
+
+                let imgUrl = item.enclosure.link ? item.enclosure.link :
+                             item.thumbnail ? item.thumbnail :
+                             'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80';
+
+                const col = document.createElement('div');
+                col.className = 'col-md-6';
+                col.innerHTML = `
+                    <div class="card card-article h-100" onclick="window.open('${item.link}', '_blank')">
+                        <img src="${imgUrl}" alt="Legal News" onerror="this.src='https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80'">
+                        <div class="card-body">
+                            <div class="article-meta">
+                                <span class="source-tag">${item.sourceName}</span>
+                                <span>${new Date(item.pubDate).toLocaleDateString()}</span>
+                            </div>
+                            <h4>${item.title}</h4>
+                            <p>${cleanDescription(item.description)}</p>
+                            <span class="text-primary fw-bold small mt-2 d-block">Read Ruling/Update <i class="bi bi-box-arrow-up-right"></i></span>
+                        </div>
+                    </div>
+                `;
+                newsGrid.appendChild(col);
+            });
+
+            tickerContainer.innerHTML = tickerHtml;
+        }
+
+        function cleanDescription(html) {
+            let tmp = document.createElement("DIV");
+            tmp.innerHTML = html;
+            let text = tmp.textContent || tmp.innerText || "";
+            return text.length > 120 ? text.substring(0, 120) + '...' : text;
+        }
+    });
+
+    // Add this to your existing script section
+    document.getElementById('pageSearchInput').addEventListener('keyup', function() {
+        let searchValue = this.value.toLowerCase();
+
+        // Select all cards (Politics uses .card-news, Law uses .card-article)
+        let cards = document.querySelectorAll('.card-news, .card-article');
+
+        cards.forEach(card => {
+            let text = card.innerText.toLowerCase();
+            if(text.includes(searchValue)) {
+                card.parentElement.style.display = 'block'; // Show column
+            } else {
+                card.parentElement.style.display = 'none'; // Hide column
+            }
+        });
+    });
+</script>

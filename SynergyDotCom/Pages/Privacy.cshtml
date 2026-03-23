@@ -1,0 +1,202 @@
+﻿@page
+@model SynergyDotCom.Pages.PrivacyModel
+@{
+    ViewData["Title"] = "Privacy Policy & Terms";
+}
+
+<style>
+    /* Force Light Background for this page only */
+    body {
+        background-color: #f8f9fa !important;
+        color: #333 !important; /* Force global text dark for this page */
+    }
+
+    .legal-header {
+        background-color: #ffffff;
+        border-bottom: 4px solid #00d2ff;
+        padding: 4rem 0;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+        /* Force Header Text Colors */
+        .legal-header h1 {
+            color: #0f172a !important;
+        }
+
+        .legal-header p {
+            color: #666 !important;
+        }
+
+    .legal-content {
+        font-family: 'Merriweather', serif;
+        line-height: 1.8;
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        color: #000 !important; /* Force black text */
+    }
+
+        /* Specific Headings */
+        .legal-content h2 {
+            font-family: sans-serif;
+            font-weight: 800;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: #0f172a !important; /* Dark Navy */
+            border-left: 5px solid #00d2ff;
+            padding-left: 15px;
+        }
+
+        .legal-content h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            color: #444 !important; /* Dark Gray */
+        }
+
+        .legal-content p, .legal-content li {
+            color: #333 !important; /* Dark Gray */
+        }
+
+    /* Sidebar Navigation */
+    .legal-sidebar {
+        position: sticky;
+        top: 100px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+        .legal-sidebar h6 {
+            color: #000 !important;
+        }
+
+    .toc-link {
+        display: block;
+        padding: 8px 0;
+        color: #555 !important;
+        text-decoration: none;
+        font-size: 0.9rem;
+        border-left: 2px solid transparent;
+        padding-left: 15px;
+        transition: all 0.2s;
+    }
+
+        .toc-link:hover {
+            color: #00d2ff !important;
+            border-left-color: #00d2ff;
+            background-color: #f8f9fa;
+        }
+
+    /* Disclaimer Box */
+    .disclaimer-box {
+        background-color: #fff3cd !important;
+        border: 1px solid #ffecb5;
+        color: #856404 !important; /* Dark Yellow/Brown text */
+        padding: 20px;
+        border-radius: 4px;
+        margin: 20px 0;
+        font-size: 0.95rem;
+    }
+</style>
+
+<div class="legal-header">
+    <div class="container">
+        <h1 class="display-5 fw-bold mb-3">Privacy Policy & Terms of Use</h1>
+        <p class="text-uppercase small ls-2">Last Updated: December 10, 2025</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row">
+
+        <div class="col-md-3 d-none d-md-block">
+            <div class="legal-sidebar">
+                <h6 class="fw-bold text-uppercase mb-3">Table of Contents</h6>
+                <a href="#intro" class="toc-link">1. Introduction</a>
+                <a href="#collection" class="toc-link">2. Data Collection</a>
+                <a href="#ndpr" class="toc-link">3. NDPR Compliance</a>
+                <a href="#ip" class="toc-link">4. Intellectual Property</a>
+                <a href="#disclaimer" class="toc-link">5. Legal Disclaimer</a>
+                <a href="#contact" class="toc-link">6. Contact</a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="legal-content">
+
+                <div id="intro">
+                    <p class="lead" style="color: #000 !important; font-weight: 500;">
+                        Welcome to <strong>SYNERGY</strong> ("we," "our," or "us"). By accessing or using our website,
+                        news aggregation services, or submitting content to the Anthology, you agree to be bound by these Terms
+                        and our Privacy Policy.
+                    </p>
+                </div>
+
+                <div id="collection">
+                    <h2>2. Information We Collect</h2>
+                    <p>We collect information to provide better services to our users. This includes:</p>
+                    <ul>
+                        <li><strong>Personal Information:</strong> When you subscribe to our newsletter or submit a poem, we collect your name and email address.</li>
+                        <li><strong>Usage Data:</strong> We utilize standard cookies to analyze traffic patterns and user behavior to improve site performance.</li>
+                    </ul>
+                </div>
+
+                <div id="ndpr">
+                    <h2>3. Compliance with Nigerian Law</h2>
+                    <p>
+                        Synergy operates in accordance with the <strong>Nigeria Data Protection Regulation (NDPR) 2019</strong>.
+                        We are committed to the principles of data minimization, accuracy, and storage limitation.
+                    </p>
+                    <h3>Your Rights</h3>
+                    <p>Under the NDPR, you have the right to:</p>
+                    <ul>
+                        <li>Request access to the personal data we hold about you.</li>
+                        <li>Request correction of any inaccurate data.</li>
+                        <li>Request deletion of your data ("Right to be Forgotten").</li>
+                    </ul>
+                </div>
+
+                <div id="ip">
+                    <h2>4. Intellectual Property & Anthology Submissions</h2>
+                    <p>
+                        <strong>Synergy Content:</strong> The design, logo, and original code of this website are the property of Synergy and are protected by copyright laws.
+                    </p>
+                    <p>
+                        <strong>Your Submissions:</strong> By submitting poetry or articles to the Anthology section, you grant Synergy a non-exclusive, worldwide, royalty-free license to display, reproduce, and distribute your work on this platform. <strong>You retain full copyright ownership of your work.</strong> We will always attribute the work to the author name provided.
+                    </p>
+                </div>
+
+                <div id="disclaimer">
+                    <h2>5. Legal Disclaimer</h2>
+                    <div class="disclaimer-box">
+                        <strong>IMPORTANT NOTICE:</strong> The content provided on the "Law & Property" page is for informational purposes only and does not constitute legal advice.
+                        Reading the articles on this site or contacting us via the "Case Review" form does <strong>not</strong> create an attorney-client relationship.
+                        Always consult with a qualified solicitor for legal advice specific to your situation.
+                    </div>
+                    <p>
+                        <strong>News Aggregation:</strong> This website aggregates news headlines from various third-party sources (e.g., Punch, Vanguard).
+                        We are not responsible for the accuracy or content of external websites linked from our platform.
+                    </p>
+                </div>
+
+                <div id="contact">
+                    <h2>6. Contact Us</h2>
+                    <p>
+                        If you have any questions about this Privacy Policy, please contact the Data Protection Officer at:
+                    </p>
+                    <address class="border-start border-3 ps-3" style="border-color: #00d2ff !important;">
+                        <strong>Synergy Legal & Creative</strong><br>
+                        Lagos, Nigeria<br>
+                        Email: <a href="mailto:privacy@synergy.com" style="color: #00d2ff;">privacy@synergy.com</a>
+                    </address>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
