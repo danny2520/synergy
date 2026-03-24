@@ -1,0 +1,17 @@
+# Use Microsoft's official .NET runtime image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy and restore dependencies
+COPY ["SynergyDotCom.csproj", "./"]
+RUN dotnet restore "./SynergyDotCom.csproj"
+
+# Copy everything else and build
+COPY . .
+RUN dotnet publish "SynergyDotCom.csproj" -c Release -o /app/publish
+
+# Final stage: run the app
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "SynergyDotCom.dll"]
