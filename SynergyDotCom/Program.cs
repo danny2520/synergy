@@ -1,3 +1,4 @@
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.EntityFrameworkCore; // <--- REQUIRED for 'UseSqlServer'
 using SynergyDotCom.Data;          // <--- REQUIRED for 'ApplicationDbContext'
 
@@ -9,8 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));// ----------------------------------
-
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 // --- 2. CONFIGURATION: SERVICES ---
 builder.Services.AddRazorPages();
 
