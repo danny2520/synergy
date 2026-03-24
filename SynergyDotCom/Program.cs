@@ -1,22 +1,25 @@
+using Microsoft.EntityFrameworkCore;
+using SynergyDotCom.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
-using Microsoft.EntityFrameworkCore; // <--- REQUIRED for 'UseSqlServer'
-using SynergyDotCom.Data;          // <--- REQUIRED for 'ApplicationDbContext'
+
+// 1. GLOBAL SETTINGS (Must come AFTER 'using' but BEFORE 'builder')
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- 1. CONFIGURATION: DATABASE ---
+// --- 2. CONFIGURATION: DATABASE ---
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-// --- 2. CONFIGURATION: SERVICES ---
+    options.UseNpgsql(connectionString));
+
+// --- 3. CONFIGURATION: SERVICES ---
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// --- 3. PIPELINE ---
+// --- 4. PIPELINE ---
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -25,11 +28,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
-
 app.MapRazorPages();
 
 app.Run();
